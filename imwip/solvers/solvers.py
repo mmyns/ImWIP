@@ -81,7 +81,8 @@ def barzilai_borwein(grad_f,
                      projector=None,
                      max_iter=100,
                      verbose=True,
-                     callback=None):
+                     callback=None,
+                     return_stepsize = False):
     """
     Minimizes a function f using projected gradient descent with the step size of
     :cite:t:`barzilai1988two` and bounds. The BB stepsize is only defined from the second
@@ -183,7 +184,8 @@ def barzilai_borwein(grad_f,
         # apply the projector
         if not projector is None:
             x = projector(x)
-
+    if return_stepsize:
+        return x,a
     return x
 
 
