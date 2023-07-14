@@ -199,7 +199,8 @@ def split_barzilai_borwein(
         projector=None,
         max_iter=100,
         verbose=True,
-        callback=None
+        callback=None,
+        return_stepsize = False
     ):
     """
     A split version of :py:func:`barzilai_borwein`. Instead of using a single stepsize
@@ -306,5 +307,6 @@ def split_barzilai_borwein(
         # apply the projector
         if not projector is None:
             x = projector(x)
-
+    if return_stepsize:
+        return x,a
     return x
