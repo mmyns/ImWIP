@@ -35,13 +35,16 @@ def _line_search(f, fx, grad, x, d, t=0.5, c=1e-4, a=1.0, max_iter=20, verbose=F
     return a
 
 
-def _get_split_stepsize(x, grad, f=None, init_step=None, line_search_iter=None, verbose=False):
+def _get_split_stepsize(x, grad, f=None, init_step=None, line_search_iter=None, verbose=False, norm = True):
     if init_step is not None:
-        a = [0]*len(x)
-        for i in range(len(x)):
-            n_grad = np.linalg.norm(grad[i])
-            if n_grad > 0:
-                a[i] = init_step[i]/np.linalg.norm(grad[i])
+        if norm:
+            a = [0]*len(x)
+            for i in range(len(x)):
+                n_grad = np.linalg.norm(grad[i])
+                if n_grad > 0:
+                    a[i] = init_step[i]/np.linalg.norm(grad[i])
+        else:
+            a = init_step
     else:
         if f is None:
             if line_search_iter is not None:
@@ -200,7 +203,8 @@ def split_barzilai_borwein(
         max_iter=100,
         verbose=True,
         callback=None,
-        return_stepsize = False
+        return_stepsize = False,
+        norm = True
     ):
     """
     A split version of :py:func:`barzilai_borwein`. Instead of using a single stepsize
@@ -250,9 +254,9 @@ def split_barzilai_borwein(
         f=f,
         init_step=init_step,
         line_search_iter=line_search_iter,
-        verbose=verbose
+        verbose=verbose,
+        norm = norm
     )
-
     # gradient descent step
     xp = x[:]
     for i in range(len(x)):
@@ -267,7 +271,8 @@ def split_barzilai_borwein(
         f=f,
         init_step=init_step,
         line_search_iter=line_search_iter,
-        verbose=verbose
+        verbose=verbose,
+        norm = norm
     )
     xp = x[:]
     for i in range(len(x)):
@@ -292,7 +297,6 @@ def split_barzilai_borwein(
         for i in range(len(x)):
             grad_diff = grad[i] - gradp[i]
             a[i] = abs(np.dot(x[i]-xp[i], grad_diff))/np.dot(grad_diff, grad_diff)
-
         # new solution: gradient descent step
         xp = x[:]
         for i in range(len(x)):
