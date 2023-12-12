@@ -50,7 +50,7 @@ class SplitBarzilaiBorwein:
 
     
 
-    def _get_split_stepsize(x, grad, f=None, init_step=None, line_search_iter=None, verbose=False, norm = True):
+    def _get_split_stepsize(self,x, grad, f=None, init_step=None, line_search_iter=None, verbose=False, norm = True):
         if init_step is not None:
             if norm:
                 a = [0]*len(x)
