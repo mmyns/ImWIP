@@ -121,3 +121,5 @@ class SplitBarzilaiBorwein:
         if self.projector is not None:
             self.x = self.projector(self.x)
 
+        self.iter +=1
+
