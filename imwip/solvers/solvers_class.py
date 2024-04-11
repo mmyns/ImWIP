@@ -92,7 +92,7 @@ class SplitBarzilaiBorwein:
         grad = self.grad_f(*self.x)
         
         if self.iter<2:
-            self.stepsize = self._get_split_stepsize(self.x, grad)
+            self.stepsize = self._get_split_stepsize(self.x, grad, init_step=self.stepsize)
             self.xp = self.x[:]
             for i in range(len(self.x)):
                 self.x[i] = self.x[i] - self.stepsize[i] * grad[i]
