@@ -56,6 +56,8 @@ class SplitBarzilaiBorwein:
                 a = [0]*len(x)
                 for i in range(len(x)):
                     n_grad = np.linalg.norm(grad[i])
+                    print(n_grad)
+                    print(init_step[i])
                     if n_grad > 0:
                         a[i] = init_step[i]/np.linalg.norm(grad[i])
             else:
@@ -92,10 +94,10 @@ class SplitBarzilaiBorwein:
         grad = self.grad_f(*self.x)
         
         if self.iter<2:
-            self.stepsize = self._get_split_stepsize(self.x, grad, init_step=self.stepsize)
+            a = self._get_split_stepsize(self.x, grad, init_step=self.stepsize)
             self.xp = self.x[:]
             for i in range(len(self.x)):
-                self.x[i] = self.x[i] - self.stepsize[i] * grad[i]
+                self.x[i] = self.x[i] - a[i] * grad[i]
 
             self.gradp = grad
         else:
